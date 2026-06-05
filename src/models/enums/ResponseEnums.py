@@ -1,4 +1,5 @@
 from enum import Enum
+# هذا الملف يحتوي على تعريفات للأنواع الثابتة (enums) التي تستخدم في الردود والإشارات داخل التطبيق.
 
 class ResponseSignal(Enum):
 

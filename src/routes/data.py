@@ -7,7 +7,7 @@ import aiofiles
 from models import ResponseSignal
 import logging
 
-logger = logging.getLogger('uvicorn.error')
+logger = logging.getLogger('uvicorn.error')# هنا بنستخدم لوجر اليوفركورن عشان نسجل اي اخطاء ممكن تصير اثناء رفع الملفات او التعامل معها
 
 data_router = APIRouter(
     prefix="/api/v1/data",
@@ -20,7 +20,8 @@ async def upload_data(project_id: str, file: UploadFile,
         
     
     # validate the file properties
-    data_controller = DataController()
+    data_controller = DataController()# عشان يستخدم الاوبجكت اللي سويناه في 
+    # DataController.py عشان يقدر يستخدم الميثود اللي سويناها في DataController.py وهي validate_uploaded_file عشان يتحقق من نوع الملف وحجمه قبل ما يخزنه
 
     is_valid, result_signal = data_controller.validate_uploaded_file(file=file)
 
@@ -39,7 +40,7 @@ async def upload_data(project_id: str, file: UploadFile,
     )
 
     try:
-        async with aiofiles.open(file_path, "wb") as f:
+        async with aiofiles.open(file_path, "wb") as f:# هنا بنفتح الملف اللي راح نخزن فيه البيانات المرفوعة بصيغة الكتابة الثنائية "wb" لان ممكن تكون ملفات pdf او csv او غيرها من الملفات اللي تحتاج لكتابة ثنائية
             while chunk := await file.read(app_settings.FILE_DEFAULT_CHUNK_SIZE):
                 await f.write(chunk)
     except Exception as e:
