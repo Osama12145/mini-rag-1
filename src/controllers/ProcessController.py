@@ -36,7 +36,7 @@ class ProcessController(BaseController):
     def get_file_content(self, file_id: str):
 
         loader = self.get_file_loader(file_id=file_id)
-        return loader.load()
+        return loader.load()# لانج تشين بتتوقع ان ال load ترجع لست من ال Document objects اللي فيها page_content و metadata
 
     def process_file_content(self, file_content: list, file_id: str,
                             chunk_size: int=100, overlap_size: int=20):
@@ -44,13 +44,14 @@ class ProcessController(BaseController):
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
             chunk_overlap=overlap_size,
-            length_function=len,
+            length_function=len,# فنكشن عشان تحسب فيها الطول عشان تقدر تقسم النصوص بناء على الطول مش بناء على عدد الكلمات مثلا، لان ممكن يكون 
+           # في نصوص فيها كلمات طويلة جدا او قصيرة جدا فلو اعتمدنا على عدد الكلمات ممكن يطلع لنا chunks طويلة او قصيرة جدا، لكن لو اعتمدنا على طول النصوص حيطلع لنا chunks متقاربة في الطول
         )
 
         file_content_texts = [
             rec.page_content
             for rec in file_content
-        ]
+        ]# هذا كمبرهينشن عشان نطلع ال page_content من كل Document object في ال list اللي رجعها ال loader، لان ال text_splitter بيتوقع ان ال input بتاعه يكون لست من النصوص مش لست من ال Document objects
 
         file_content_metadata = [
             rec.metadata
@@ -59,7 +60,7 @@ class ProcessController(BaseController):
 
         chunks = text_splitter.create_documents(
             file_content_texts,
-            metadatas=file_content_metadata
+            metadatas=file_content_metadata# يساعدني اعرف معلومات عن الصفحه اللي جت منها ال chunk دي، مثلا لو حبيت ارجع اصل ال chunk دي منين في الملف اقدر اعرف من ال metadata، او لو حبيت اعرف اي صفحة في ال PDF جت منها ال chunk دي اقدر اعرف من ال metadata
         )
 
         return chunks
