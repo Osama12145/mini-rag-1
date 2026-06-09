@@ -17,12 +17,12 @@ class Project(BaseModel):
         arbitrary_types_allowed = True
 
     @classmethod
-    def get_indexes(cls):
+    def get_indexes(cls):#عشانها ستاتك ميثود مش بتحتاج انشاء انسطنس من الكلاس عشان تناديها
 
         return [
             {
                 "key": [
-                    ("project_id", 1)
+                    ("project_id", 1)#تصاعدي
                 ],
                 "name": "project_id_index_1",
                 "unique": True

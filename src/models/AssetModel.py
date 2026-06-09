@@ -39,7 +39,7 @@ class AssetModel(BaseDataModel):
         records = await self.collection.find({
             "asset_project_id": ObjectId(asset_project_id) if isinstance(asset_project_id, str) else asset_project_id,
             "asset_type": asset_type,
-        }).to_list(length=None)
+        }).to_list(length=None)#None يعني يرجع كل السجلات بدون تحديد حد اقصى لعدد السجلات المرجعة
 
         return [
             Asset(**record)
